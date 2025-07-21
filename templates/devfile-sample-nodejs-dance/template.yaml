@@ -124,11 +124,11 @@ spec:
                   title: Repository Owner
                   type: string
                   ui:help: The organization, user or project that this repo will belong to
-                  
+                  default: development
                 glHost:
                   title: Repository Server
                   type: string
-                  default: gitlab.com
+                  default: gitlab-gitlab.apps.cluster-bmxpz.bmxpz.sandbox430.opentlc.com
                   ui:help: "You can also provide the on-prem gitlab server, example: gitlab-gitlab.apps.cluster-ljg9z.sandbox219.opentlc.com"
                 ciType:
                   title: CI Provider
@@ -212,14 +212,14 @@ spec:
           title: Image Registry
           type: string
           description: The image registry host
-          default: quay.io
+          default: quay-bmxpz.apps.cluster-bmxpz.bmxpz.sandbox430.opentlc.com
           ui:autofocus: true
           ui:help: "You can also provide the on-prem registry host, example: quay-tv2pb.apps.cluster-tv2pb.sandbox1194.opentlc.com"
         imageOrg:
           title: Image Organization
           type: string
           description: The organization, user or project that this repo will belong to
-          
+          default: quayadmin
         imageName:
           title: Image Name
           type: string
@@ -265,8 +265,8 @@ spec:
           # actual src image will be updated by the CI pipeline.
           srcImage: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           port: 3001
-          argoNS: tssc-gitops
-          argoProject: default
+          argoNS: janus-argocd
+          argoProject: janus
           ciType: ${{ parameters.ciType }}
           gitRepoOwner: ${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}
           gitRepoName: ${{ parameters.repoName }}-gitops
@@ -308,8 +308,8 @@ spec:
           # actual src image will be updated by the CI pipeline.
           srcImage: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           port: 3001
-          argoNS: tssc-gitops
-          argoProject: default
+          argoNS: janus-argocd
+          argoProject: janus
           hostType: ${{ parameters.hostType }}
           username: ${{ parameters.bbOwner }}
           secretRef: ${{ parameters.hostType != 'GitHub' }}
@@ -385,8 +385,8 @@ spec:
       input:
         appName: ${{ parameters.name }}-app-of-apps
         # name set in rhdh config
-        argoInstance: default
-        namespace: tssc-gitops
+        argoInstance: main
+        namespace: janus-argocd
         repoUrl: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops.git
         path: './app-of-apps'
     # The wait for Repository CRs to be created, so the creation of the source repository triggers the first build.

@@ -1,26 +1,26 @@
 # PE can replace these values with on-prem host
 export GITHUB__DEFAULT__HOST=github.com
-export GITLAB__DEFAULT__HOST=gitlab.com
+export GITLAB__DEFAULT__HOST=gitlab-gitlab.apps.cluster-bmxpz.bmxpz.sandbox430.opentlc.com
 export BITBUCKET__DEFAULT__HOST=bitbucket.org
 
-export QUAY__DEFAULT__HOST=quay.io
+export QUAY__DEFAULT__HOST=quay-bmxpz.apps.cluster-bmxpz.bmxpz.sandbox430.opentlc.com
 
 # leave empty if you don't want to set defaults for your git or quay org
 export GITHUB__DEFAULT__ORG=""
-export GITLAB__DEFAULT__ORG=""
+export GITLAB__DEFAULT__ORG="development"
 export BITBUCKET__DEFAULT__ORG=""
-export QUAY__DEFAULT__ORG=""
+export QUAY__DEFAULT__ORG="quayadmin"
 
 # PE can replace these values with own pipeline fork
-export PIPELINE__REPO__URL=https://github.com/redhat-appstudio/tssc-sample-pipelines
-export PIPELINE__REPO__BRANCH=release-v1.6.x
+export PIPELINE__REPO__URL=https://github.com/rafaeltuelho/tssc-sample-pipelines
+export PIPELINE__REPO__BRANCH=release-v1.6.x-custom
 
 export DEFAULT__DEPLOYMENT__NAMESPACE__PREFIX=tssc-app
 
 export RHTAP__DEFAULT__NAMESPACE=tssc
-export ARGOCD__DEFAULT__NAMESPACE=tssc-gitops
-export ARGOCD__DEFAULT__INSTANCE=default
-export ARGOCD__DEFAULT__PROJECT=default
+export ARGOCD__DEFAULT__NAMESPACE=janus-argocd
+export ARGOCD__DEFAULT__INSTANCE=main
+export ARGOCD__DEFAULT__PROJECT=janus
 
 
 # For secret reference in Repository CRs
@@ -43,3 +43,5 @@ fi
 if [ ! -z "${QUAY__DEFAULT__ORG}" ]; then
 export DEFAULT_ORG_FOR_QUAY="default: $QUAY__DEFAULT__ORG"
 fi
+
+export DISABLE_ACS=false
