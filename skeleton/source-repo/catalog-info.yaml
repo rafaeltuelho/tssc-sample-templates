@@ -4,7 +4,7 @@ metadata:
   name: ${{ values.name }} 
   description: ${{ values.description}}   
   links:
-    - url: https://devspaces.${{ values.clusterAppsDomain }}/#https://${{ values.srcRepoURL }}
+    - url: https://devspaces.${{ values.clusterAppsDomain }}/#${{ values.srcRepoURL }}
       title: OpenShift Dev Spaces (VS Code)
       icon: web
     - url: https://www.redhat.com/en/solutions/trusted-software-supply-chain
