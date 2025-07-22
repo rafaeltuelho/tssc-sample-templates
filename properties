@@ -1,4 +1,5 @@
 # PE can replace these values with on-prem host
+export CLUSTER__APPS__SUBDOMAIN=apps.cluster-bmxpz.bmxpz.sandbox430.opentlc.com
 export GITHUB__DEFAULT__HOST=github.com
 export GITLAB__DEFAULT__HOST=gitlab-gitlab.apps.cluster-bmxpz.bmxpz.sandbox430.opentlc.com
 export BITBUCKET__DEFAULT__HOST=bitbucket.org
@@ -12,8 +13,8 @@ export BITBUCKET__DEFAULT__ORG=""
 export QUAY__DEFAULT__ORG="quayadmin"
 
 # PE can replace these values with own pipeline fork
-export PIPELINE__REPO__URL=https://github.com/rafaeltuelho/tssc-sample-pipelines
-export PIPELINE__REPO__BRANCH=release-v1.6.x-custom
+export PIPELINE__REPO__URL=https://github.com/redhat-appstudio/tssc-sample-pipelines
+export PIPELINE__REPO__BRANCH=release-v1.6.x
 
 export DEFAULT__DEPLOYMENT__NAMESPACE__PREFIX=tssc-app
 

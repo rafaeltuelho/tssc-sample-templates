@@ -431,6 +431,7 @@ spec:
           imageName: ${{ parameters.imageName }}
           tags: 'sed.edit.APPTAGS'
           repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}
           hostType: ${{ parameters.hostType }}
           ciType: ${{ parameters.ciType }}
           gitRepoOwner: ${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}
@@ -441,6 +442,7 @@ spec:
           defaultBranch: ${{ parameters.branch }}
           isTekton: ${{ parameters.ciType === 'tekton' }}
           isJenkins: ${{ parameters.ciType === 'jenkins' }}
+          clusterAppsDomain: ${CLUSTER__APPS__SUBDOMAIN}
     - id: fetch-source-ci-skeleton
       name: Fetch Source CI
       action: fetch:template
