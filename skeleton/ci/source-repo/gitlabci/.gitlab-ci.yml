@@ -26,6 +26,8 @@ buildah-rhtap:
   script:
     - echo "• buildah-rhtap"
     - bash /work/rhtap/buildah-rhtap.sh
+    # Workaround to remove large files from being upload to GitLab.
+    - rm -rf results/temp/files
   artifacts:
     paths:
       - results/
