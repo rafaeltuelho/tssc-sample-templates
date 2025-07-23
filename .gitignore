@@ -1,3 +1,4 @@
 # macOS
 .DS_Store
 properties.local
+private.env
