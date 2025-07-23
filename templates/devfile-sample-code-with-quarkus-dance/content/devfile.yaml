@@ -1,59 +1,54 @@
 schemaVersion: 2.2.0
 metadata:
-  name: java-quarkus
-  version: 1.2.1
-  provider: Red Hat
-  supportUrl: https://github.com/devfile-samples/devfile-support#support-information
-  icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
-  website: https://quarkus.io
-  displayName: Quarkus Java - Trusted Application Pipeline
-  description: Quarkus Java example with advanced continuous integration pipeline covering building, CVE scanning, security scanning, signatures,  attestations, SLSA provenance and SBOM along with Gitops-based continuous deployment
-  tags:
-    - Java
-    - Quarkus
-    - sscs
-    - sbom
-    - acs
-  projectType: Quarkus
-  language: Java
-  attributes:
-    alpha.dockerimage-port: 8081
-parent:
-  id: java-quarkus
-  registryUrl: 'https://registry.devfile.io'
+  generateName: quarkus-app
 components:
-  - name: image-build
-    image:
-      imageName: java-quarkus-image:latest
-      dockerfile:
-        uri: src/main/docker/Dockerfile.jvm.staged
-        buildContext: .
-        rootRequired: false
-  - name: kubernetes-deploy
-    attributes:
-      deployment/replicas: 1
-      deployment/cpuRequest: 10m
-      deployment/memoryRequest: 100Mi
-      deployment/container-port: 8081
-    kubernetes:
-      uri: deploy.yaml
+  - name: development-tooling
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-277c10c
+      env:
+        - name: QUARKUS_HTTP_HOST
+          value: 0.0.0.0
+        - name: MAVEN_OPTS
+          value: "-Dmaven.repo.local=/home/user/.m2/repository"
+      memoryLimit: 5Gi
+      cpuLimit: 2500m
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
       endpoints:
-        - name: http-8081
+        - name: quarkus-dev
+          targetPort: 8080
+          exposure: public
+          secure: false
+          protocol: https
+          path: hello-resteasy
+        - name: debug
+          targetPort: 5005
+          exposure: none
+          secure: false
+          protocol: tcp
+        - name: tests
           targetPort: 8081
-          path: /
-          secure: true
+          exposure: none
+          secure: false
+          protocol: tcp
+  - name: m2
+    volume:
+      size: 1G
 commands:
-  - id: build-image
-    apply:
-      component: image-build
-  - id: deployk8s
-    apply:
-      component: kubernetes-deploy
-  - id: deploy
-    composite:
-      commands:
-        - build-image
-        - deployk8s
+  - id: package
+    exec:
+      label: "1. Package the application"
+      component: development-tooling
+      commandLine: "./mvnw package"
       group:
-        kind: deploy
+        kind: build
+        isDefault: true
+  - id: start-dev
+    exec:
+      label: "2. Start Development mode (Hot reload + debug)"
+      component: development-tooling
+      commandLine: "./mvnw compile quarkus:dev"
+      group:
+        kind: run
         isDefault: true
